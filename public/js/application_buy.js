@@ -27,10 +27,12 @@ $('button').on('click',function(){
 // $(this).append($('<p>'+string+'</p>'))
  var data=JSON.stringify(inputs);
 
+
+
 $.ajax({
-                    url: 'http://localhost:3000/inputs',
+                    url: 'http://localhost:3000/insertinputs',
                     type: 'post',
-                    data: {'inputs':data}
+                    data: {'inputs':string}
     });
 });
 

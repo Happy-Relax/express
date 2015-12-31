@@ -6,56 +6,16 @@ $(document).ready(function(){
     var l_promotions;
     //async
     //q.js
-     $.ajax({
-          url: "http://localhost:3000/inputs",
-          datatype:'JSON'
-    }).done(function(inputs) {
-         $.ajax({
-              url: "http://localhost:3000/all",
-              datatype:'JSON'
-         }).done(function(AllItems) {
-             $.ajax({
-              url: "http://localhost:3000/load",
-              datatype:'JSON'
-            }).done(function(l_promotions) {
-                    var CartItems=new Array();
-
-                    CartItems=Count_all(JSON.parse(inputs),AllItems);
-                    var priceItems=new Array();
-
-                    priceItems=Price(CartItems,l_promotions[0].barcodes);
-                    var GiftItems=new Array();
-                    GiftItems=Gift(priceItems)
-                    var Receipt={total:0,save:0}
-                    Receipt=Sum(priceItems);
-                    Receipt={"total":Sum(priceItems).total,
-                             "save":Sum(priceItems).save,
-                             "priceItems":priceItems,
-                             "GiftItems":GiftItems
-                             }
-
-                    var complied=_.template($("#template").text());
-                    $('#list').append($(complied({"Receipt":Receipt})));
+    $.ajax({
+            url:"http://localhost:3000/receipt"
+    }).done(function(receipt){
+        var complied=_.template($("#template").text());
+        $('#list').append($(complied({"Receipt":receipt})));
+    })
 
 
-                });
-            });
 
-      });
-//var
 
-//alert(GiftItems.length);
-//for(var i=0;i<GiftItems.length;i++)
-//{
-//    var string='<tr><th>'+GiftItems[i].name+'</th><th>'+GiftItems[i].promotioncount+GiftItems[i].unit+'</th></tr>';
-//    $('#save_list').find('tbody').append($(string));
-//
-//}
-//var compiled = _.template($("#Gift").text());
-//$('#save_list').find('tbody').append($(compiled({"GiftItems": GiftItems})));
-//
-//var str='<div class="col-md-4"><center><h3>总计：'+Receipt.total.toFixed(2)+'元</h3></center></div><div class="col-md-4"><center><h3>节省：'+Receipt.save.toFixed(2)+'元</h3></center></div>';
-//$('#total').after($(str));
 
 });
 
